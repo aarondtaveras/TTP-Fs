@@ -9,7 +9,7 @@
  *  This will allow us to perform complex queries in a simplified manner.
  * 
  */
-const Pool = require('pg'),
+const { Pool } = require('pg'),
     utils = require('../src/utils');
 
 const pool = new Pool({
@@ -21,12 +21,12 @@ const pool = new Pool({
 
 
 module.exports = {
-    getUser,
-    getTransactions,
-    getOwnedStocks,  
-    createUser,
-    loginUser,
-    updateUserBalances,
-    updateUserEmail,
-    updateUserPassword
+    // getUser,
+    // getTransactions,
+    // getOwnedStocks,  
+    // createUser,
+    // loginUser,
+    // updateUserBalances,
+    // updateUserEmail,
+    // updateUserPassword
 }
