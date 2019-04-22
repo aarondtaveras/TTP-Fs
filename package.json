@@ -1,0 +1,27 @@
+{
+  "name": "ttp-fs",
+  "version": "1.0.0",
+  "description": "Full stack application for TTP program.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aarondtaveras/TTP-Fs.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "psql"
+  ],
+  "author": "adt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aarondtaveras/TTP-Fs/issues"
+  },
+  "homepage": "https://github.com/aarondtaveras/TTP-Fs#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
