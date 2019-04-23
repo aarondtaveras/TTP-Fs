@@ -88,6 +88,20 @@ async function updateUserBalances(id, amount){
     return {message: "Success!"};
 }
 
+async function addTransaction(id,ticker,quantity){
+    // business logic for retrieving price of stock
+    var query = {
+        text: 'INSERT INTO transactions(user_id, ticker,quantity,price) VALUES($1,$2,$3,$4)',
+        values: [id,ticker,quantity,price]
+    }
+    pool.query(query)
+    .catch(e => {
+        throw new Error(e);
+    })
+    return {message: "Success!"};
+}
+
+// Export function that we will use to buy the stock in one go. Uses several helper functions to accomplish its task.
 async function buyStock(id, ticker, quantity){
     var query = {
         text: 'INSERT INTO owned_stock(user_id,ticker,quantity) VALUES($1,$2,$3)',
@@ -97,6 +111,16 @@ async function buyStock(id, ticker, quantity){
     .catch(e => {
         throw new Error(e);
     })
+    try {
+        let trans = await addTransaction(id,ticker,quantity);
+    } catch(err){
+        throw new Error(err);
+    }
+    try {
+        let update = await updateUserBalances(id, amount);
+    } catch(err){
+        throw new Error(err);
+    }
     return {message: "Success!"};
 }
 
@@ -106,6 +130,5 @@ module.exports = {
     getOwnedStocks,  
     createUser,
     loginUser,
-    updateUserBalances,
     buyStock
 }

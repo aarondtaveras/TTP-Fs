@@ -6,7 +6,7 @@ var utils = require('../utils');
 
 /* GET home page. */
 router.get('/', async(req,res) => {
-  queries.buyStock(5,"GOOG",10);
+  // queries.buyStock(5,"GOOG",10);
   res.render('index', { title: 'Stock App' });
 });
 
