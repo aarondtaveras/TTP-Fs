@@ -2,4 +2,10 @@ extends layout
 
 block content
     .jumbotron
-    h1 Welcome user #{id}! 
+        h1 Welcome #{name}! 
+        p Portfolio (#{balance})
+            ul Stocks owned: 
+                for stock in owned_stocks
+                    li #{stock.ticker} - #{stock.quantity} Shares
+                else
+                    li You don't have any stocks!

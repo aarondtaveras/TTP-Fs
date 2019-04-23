@@ -24,11 +24,11 @@ async function getUser(id){
         text: 'SELECT * FROM users WHERE user_id=$1',
         values: [id]
     }
-    pool.query(query)
-    .catch(e => {
-        throw new Error(e);
-    })
-    return {message: "Success!"};
+    let res = await pool.query(query);
+    if(!res.rowCount){
+        throw new Error("User not found");
+    }
+    return res.rows[0];
 }
 
 async function getTransactions(id){
@@ -36,7 +36,16 @@ async function getTransactions(id){
 }
 
 async function getOwnedStocks(id){
-
+    var query = {
+        text: 'SELECT * FROM owned_stock WHERE user_id=$1',
+        values: [id]
+    }
+    try{
+        let res = await pool.query(query);
+    } catch(err){
+        throw new Error(err);
+    }
+    return await pool.query(query);
 }
 
 async function createUser(body){
