@@ -1,5 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  p Sign in to #{title}
+  .jumbotron
+    h1= title
+    p Sign in to #{title}
+    form(name="sign-in",method="post")
+      div.input
+        span.label Email
+        input(type="text",name="email")
+      div.input 
+        span.label Password
+        input(type="password",name="password")
+      div.actions
+        input(type="submit")
+      button(name="register")

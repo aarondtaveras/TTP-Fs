@@ -1,5 +1,19 @@
 extends layout
 
 block content
-    h1=title
-    p Register for #{title}
+    .jumbotron
+        h1= title
+        p Register your account.
+        form(name="register",method="post")
+        div.input
+            span.label Name
+            input(type="text",name="name")
+        div.input 
+            span.label Email
+            input(type="text",name="email")
+        div.input 
+            span.label Password
+            input(type="password",name="password")
+        div.actions
+            input(type="submit")
+        button(name="register")
