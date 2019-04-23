@@ -89,7 +89,15 @@ async function updateUserBalances(id, amount){
 }
 
 async function buyStock(id, ticker, quantity){
-
+    var query = {
+        text: 'INSERT INTO owned_stock(user_id,ticker,quantity) VALUES($1,$2,$3)',
+        values: [id,ticker,quantity]
+    }
+    pool.query(query)
+    .catch(e => {
+        throw new Error(e);
+    })
+    return {message: "Success!"};
 }
 
 module.exports = {

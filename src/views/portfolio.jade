@@ -3,9 +3,22 @@ extends layout
 block content
     .jumbotron
         h1 Welcome #{name}! 
-        p Portfolio (#{balance})
-            ul Stocks owned: 
-                for stock in owned_stocks
-                    li #{stock.ticker} - #{stock.quantity} Shares
-                else
-                    li You don't have any stocks!
+        .myRow
+            .column
+                p Portfolio (#{balance})
+                    ul Stocks owned: 
+                        for stock in owned_stocks
+                            li #{stock.ticker} - #{stock.quantity} Shares
+                        else
+                            li You don't have any stocks!
+            .column
+                p Cash - #{balance}
+                form(name="buy_stock", method="post")
+                    div.input
+                        span.label Ticker
+                        input(type="text",name="ticker")
+                    div.input 
+                        span.label Quantity
+                        input(type="text",name="quantity")
+                    div.actions
+                        input(type="Submit")

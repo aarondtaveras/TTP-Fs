@@ -8,3 +8,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+.myRow { 
+  display: flex;
+}
+
+div.column {
+  flex: 50%;
+}
