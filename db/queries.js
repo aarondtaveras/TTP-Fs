@@ -54,19 +54,16 @@ async function createUser(body){
 
 // Log the user in by checking for the correct username and password.
 async function loginUser(body){
-    let msg = "Success!";
     var query = {
         text: 'SELECT * from users WHERE email=$1 AND password=$2',
         values: [body.email,body.password]
     }
-    pool.query(query)
-    .then(res => {
-        if(!res.rowCount){
-            msg = "Invalid email/password.";
-            // throw new Error("Invalid email/password.");
-        }
-    })
-    return {message: msg};
+    let res = await pool.query(query);
+    if(!res.rowCount){
+        throw new Error("Invalid email/password.");
+    }
+    return {message: res.rows[0].user_id.toString()};
+    // console.log("return fired");
 }
 
 // User balances can only decrease since we do not allow for selling of stock yet.

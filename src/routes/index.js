@@ -9,26 +9,30 @@ router.get('/', async(req,res) => {
   res.render('index', { title: 'Stock App' });
 });
 
+// Login function
 router.post('/',async(req,res)=> {
-  try{
+  try {
     let response = await queries.loginUser(req.body);
+    if(response.message) res.redirect('/users/' + response.message);
   } catch(err){
-    res.render('/',{title: err})
+    res.render('index',{title: err})
   }
-  res.render('index', {title: 'Stock App'});
 })
 
+// Get registration page
 router.get('/register', async(req,res) => {
   res.render('register', {title: 'Stock App'})
 })
 
+// Registration function
 router.post('/register', async(req,res)=> {
   try {
     let response = await queries.createUser(req.body);
+    if(response.message) res.redirect('/');
   } catch(err){
     res.render('register', {title: err});
   }
-  res.redirect('/');
 })
+
 
 module.exports = router;
