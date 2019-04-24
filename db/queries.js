@@ -105,7 +105,6 @@ async function updateUserBalances(id, ticker,quantity){
 }
 
 async function addTransaction(id,ticker,quantity){
-    // business logic for retrieving price of stock
     let price = await utils.getCurrentPrice(ticker);
     var query = {
         text: 'INSERT INTO transactions(user_id, ticker,quantity,price) VALUES($1,$2,$3,$4)',
@@ -119,9 +118,10 @@ async function addTransaction(id,ticker,quantity){
 }
 
 async function addStockToPorfolio(id,ticker,quantity){
+    let price = await utils.getCurrentPrice(ticker);
     var query = {
-        text: 'INSERT INTO owned_stock(user_id,ticker,quantity) VALUES($1,$2,$3)',
-        values: [id,ticker,quantity]
+        text: 'INSERT INTO owned_stock(user_id,ticker,quantity,price) VALUES($1,$2,$3,$4)',
+        values: [id,ticker,quantity,price]
     }
     pool.query(query)
     .catch(e => {

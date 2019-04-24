@@ -3,7 +3,7 @@ extends layout
 block content
   .jumbotron
     h1= title
-    p Sign in to #{title}
+    p Sign in to #{title}!
     form(name="sign-in",method="post")
       div.input
         span.label Email
@@ -13,4 +13,3 @@ block content
         input(type="password",name="password")
       div.actions
         input(type="submit")
-      button(name="register")

@@ -10,13 +10,19 @@ router.get('/:id', async(req,res) => {
     if(user){
       let raw_stocks = await queries.getOwnedStocks(user.user_id);
       let stocks = [];
+      let total_val = 0;
       if(raw_stocks.rowCount){
+        raw_stocks.rows.forEach(stock => {
+          stock.color = utils.getStockPerformance(stock.ticker);
+          total_val += Number(stock.price);
+        })
         stocks = raw_stocks.rows;
       }
       res.render('portfolio',{
           id: user.user_id,
           name: user.name,
           balance: user.balance,
+          port_val: total_val,
           owned_stocks: stocks
         }); 
     }
@@ -34,7 +40,6 @@ router.get('/:id/transactions', async(req,res) => {
       if(raw_trans.rowCount){
         _transactions = raw_trans.rows;
       }
-      console.log(_transactions);
       res.render('transactions',{
           id: user.user_id,
           name: user.name,

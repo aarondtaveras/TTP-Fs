@@ -43,8 +43,8 @@ async function getQuote(ticker){
 // RED if current price < OPENING
 // GREY if current price == OPENING
 function getStockPerformance(ticker){
-    if(getOpeningPrice(ticker)< getCurrentPrice(ticker)){return "RED";}
-    else if(getOpeningPrice(ticker) > getCurrentPrice(ticker)){return "GREEN";}
+    if(getCurrentPrice(ticker) < getOpeningPrice(ticker)){return "RED";}
+    else if(getCurrentPrice(ticker) > getOpeningPrice(ticker)){return "GREEN";}
     else return "GREY";
 } 
 

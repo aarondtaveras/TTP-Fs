@@ -5,8 +5,14 @@ html
     title= title
     +nav("Stock App","dropdown_menu")
       +nav_item("/") Home
-      +nav_item("/users/"+ id) Portfolio
-      +nav_item("/users/" + id + "/transactions") Transactions
+      if id
+        +nav_item("/users/"+ id) Portfolio
+        +nav_item("/users/" + id + "/transactions") Transactions
+        +nav_item("/") Logout
+      else 
+        +nav_item("/") Portfolio
+        +nav_item("/") Transactions
+        +nav_item("/register") Register
     link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body

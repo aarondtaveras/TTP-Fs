@@ -5,10 +5,10 @@ block content
         h1 Welcome #{name}! 
         .myRow
             .column
-                p Portfolio (#{balance})
+                p Portfolio (#{port_val})
                     ul Stocks owned: 
                         for stock in owned_stocks
-                            li #{stock.ticker} - #{stock.quantity} Shares
+                            <li style="color:#{stock.color}"> #{stock.ticker} - #{stock.quantity} Shares</li>
                         else
                             li You don't have any stocks!
             .column
