@@ -32,7 +32,16 @@ async function getUser(id){
 }
 
 async function getTransactions(id){
-
+    var query = {
+        text: 'SELECT * FROM transactions WHERE user_id=$1',
+        values: [id]
+    }
+    try{
+        let res = await pool.query(query);
+    } catch(err){
+        throw new Error(err);
+    }
+    return await pool.query(query);
 }
 
 async function getOwnedStocks(id){
@@ -82,6 +91,8 @@ async function loginUser(body){
 async function updateUserBalances(id, ticker,quantity){
     let price = await utils.getCurrentPrice(ticker);
     let amount = price * quantity;
+    let user = await getUser(id);
+    if(amount > user.balance) throw new Error("You don't have enough money!");
     var query = {
         text: 'UPDATE users SET balance=balance-$1 WHERE user_id=$2',
         values: [amount,id]
@@ -107,8 +118,7 @@ async function addTransaction(id,ticker,quantity){
     return {message: "Success!"};
 }
 
-// Export function that we will use to buy the stock in one go. Uses several helper functions to accomplish its task.
-async function buyStock(id, ticker, quantity){
+async function addStockToPorfolio(id,ticker,quantity){
     var query = {
         text: 'INSERT INTO owned_stock(user_id,ticker,quantity) VALUES($1,$2,$3)',
         values: [id,ticker,quantity]
@@ -117,16 +127,21 @@ async function buyStock(id, ticker, quantity){
     .catch(e => {
         throw new Error(e);
     })
+    return {message: "Success!"};
+}
+
+// Export function that we will use to buy the stock in one go. Uses several helper functions to accomplish its task.
+async function buyStock(id, ticker, quantity){
     try {
-        let trans = await addTransaction(id,ticker,quantity);
-    } catch(err){
+        let success = await Promise.all([
+           updateUserBalances(id,ticker,quantity), // First see if the balances can update correctly
+           addTransaction(id,ticker,quantity), // Then we add the transaction to our DB 
+           addStockToPorfolio(id,ticker,quantity) // Then we add the stock to the user's portfolio
+        ]);
+    } catch (err) {
         throw new Error(err);
     }
-    try {
-        let update = await updateUserBalances(id,ticker,quantity);
-    } catch(err){
-        throw new Error(err);
-    }
+    
     return {message: "Success!"};
 }
 

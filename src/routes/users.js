@@ -25,6 +25,27 @@ router.get('/:id', async(req,res) => {
   }
 });
 
+router.get('/:id/transactions', async(req,res) => {
+  try{
+    let user = await queries.getUser(req.params.id);
+    if(user){
+      let raw_trans = await queries.getTransactions(user.user_id);
+      let _transactions = [];
+      if(raw_trans.rowCount){
+        _transactions = raw_trans.rows;
+      }
+      console.log(_transactions);
+      res.render('transactions',{
+          id: user.user_id,
+          name: user.name,
+          transactions: _transactions
+        }); 
+    }
+  } catch(err){
+    res.redirect('/s');
+  }
+});
+
 router.post('/:id', async(req,res)=> {
   try{
     let can_buy = await queries.buyStock(req.params.id,req.body.ticker,req.body.quantity);

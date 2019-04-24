@@ -6,7 +6,6 @@ var utils = require('../utils');
 
 /* GET home page. */
 router.get('/', async(req,res) => {
-  // queries.buyStock(5,"GOOG",10);
   res.render('index', { title: 'Stock App' });
 });
 
@@ -29,7 +28,7 @@ router.get('/register', async(req,res) => {
 router.post('/register', async(req,res)=> {
   try {
     let response = await queries.createUser(req.body);
-    // if(response.message) res.redirect('/');
+    if(response.message) res.redirect('/');
   } catch(err){
     res.render('error', {message: err});
   }
