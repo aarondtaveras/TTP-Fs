@@ -54,10 +54,12 @@ async function createUser(body){
         text: 'INSERT INTO users(name,password,email) VALUES($1,$2,$3)',
         values: [body.name,body.password,body.email]
     }
-    pool.query(query)
-    .catch(e => {
-        throw new Error(e);
-    });
+    try {
+        let res = pool.query(query);
+    } catch(err){
+        console.log("err caught");
+    }
+    
     return {message: "Success!"};
 }
 
@@ -75,8 +77,11 @@ async function loginUser(body){
     // console.log("return fired");
 }
 
+
 // User balances can only decrease since we do not allow for selling of stock yet.
-async function updateUserBalances(id, amount){
+async function updateUserBalances(id, ticker,quantity){
+    let price = await utils.getCurrentPrice(ticker);
+    let amount = price * quantity;
     var query = {
         text: 'UPDATE users SET balance=balance-$1 WHERE user_id=$2',
         values: [amount,id]
@@ -90,6 +95,7 @@ async function updateUserBalances(id, amount){
 
 async function addTransaction(id,ticker,quantity){
     // business logic for retrieving price of stock
+    let price = await utils.getCurrentPrice(ticker);
     var query = {
         text: 'INSERT INTO transactions(user_id, ticker,quantity,price) VALUES($1,$2,$3,$4)',
         values: [id,ticker,quantity,price]
@@ -117,7 +123,7 @@ async function buyStock(id, ticker, quantity){
         throw new Error(err);
     }
     try {
-        let update = await updateUserBalances(id, amount);
+        let update = await updateUserBalances(id,ticker,quantity);
     } catch(err){
         throw new Error(err);
     }

@@ -16,7 +16,7 @@ router.post('/',async(req,res)=> {
     let response = await queries.loginUser(req.body);
     if(response.message) res.redirect('/users/' + response.message);
   } catch(err){
-    res.render('index',{title: err})
+    res.render('error',{message: err})
   }
 })
 
@@ -29,9 +29,9 @@ router.get('/register', async(req,res) => {
 router.post('/register', async(req,res)=> {
   try {
     let response = await queries.createUser(req.body);
-    if(response.message) res.redirect('/');
+    // if(response.message) res.redirect('/');
   } catch(err){
-    res.render('register', {title: err});
+    res.render('error', {message: err});
   }
 })
 

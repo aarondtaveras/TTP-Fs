@@ -25,4 +25,13 @@ router.get('/:id', async(req,res) => {
   }
 });
 
+router.post('/:id', async(req,res)=> {
+  try{
+    let can_buy = await queries.buyStock(req.params.id,req.body.ticker,req.body.quantity);
+    res.redirect('back');
+  } catch(err){
+    res.render('error',{message:err});
+  }
+})
+
 module.exports = router;
